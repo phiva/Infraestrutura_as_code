@@ -7,7 +7,7 @@ variable "bucket_name" {
   
 }
 
-resource "aws_s3_bucket" "static_site_bucket" {
+resource "aws_s3_bucket_website" "static_site_bucket" {
   bucket = "static-site-${var.bucket_name}"
 
   website {
