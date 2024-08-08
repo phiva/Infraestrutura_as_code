@@ -3,22 +3,26 @@ provider "aws" {
 }
 
 variable "bucket_name" {
-    type = string
-  
+    type = string 
 }
 
-resource "aws_s3_bucket_website" "static_site_bucket" {
-  bucket = "static-site-${var.bucket_name}"
+resource "aws_s3_bucket" "static_site_bucket" {
+    bucket = "static-site-${var.bucket_name}"
 
-  website {
-    index_document = "index.html"
-    error_document = "404.html"
-  }
+    website {
+        index_document = "index.html"
+        error_document = "404.html"
+    }
 
-  tags = {
-    Name = "Static Site Bucket"
-    Environment = "Production"
-  }
+    lifecycle {
+          ignore_changes = [
+          website
+  ]
+}
+    tags = {
+        Name = "Static Site Bucket"
+        Environment = "Production"
+    }
 }
 
 resource "aws_s3_bucket_public_access_block" "static_site_bucket"{
